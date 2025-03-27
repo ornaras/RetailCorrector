@@ -1,24 +1,38 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RetailCorrector.Parser
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public Enums.Page CurrentNumberPage
+        {
+            get => _numbPage;
+            set
+            {
+                _numbPage = value;
+                _page.Child = (UserControl)App.Pages[(int)value];
+            }
+        }
+        private Enums.Page _numbPage;
+
         public MainWindow()
         {
             InitializeComponent();
+            TitleBar.ToPage(0);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected internal void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler is not null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
         }
     }
 }

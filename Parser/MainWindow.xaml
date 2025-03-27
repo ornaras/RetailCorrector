@@ -2,8 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:RetailCorrector.Parser.UserControls"
+        xmlns:p="clr-namespace:RetailCorrector.Parser.Pages"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         WindowStyle="None" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
-    <WrapPanel>
-        <uc:TitleBar/>
+    <WrapPanel Orientation="Vertical">
+        <uc:TitleBar x:Name="TitleBar" x:FieldModifier="public"/>
+        <Border x:Name="_page"/>
     </WrapPanel>
 </Window>

@@ -2,38 +2,24 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace RetailCorrector.Parser.UserControls
 {
     public partial class TitleBar : UserControl, INotifyPropertyChanged
     {
-        public string PageTitle
-        {
-            get => title;
-            set
-            {
-                title = value;
-                OnPropertyChanged(nameof(PageTitle));
-            }
-        }
-        public Brush PrepPageColor { get; private set; } = Brushes.White;
-        public Brush NextPageColor { get; private set; } = Brushes.White;
-        public Brush MenuColor { get; private set; } = Brushes.White;
-
-        private string title = "";
+        public string PageTitle => currPage.TitlePage;
+        public bool IsMenuEnabled => currPage.UsageMenu;
+        public bool IsNotFirst => main.CurrentNumberPage > 0;
+        public bool IsNotLast => main.CurrentNumberPage < Enums.Page.Finish;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly MainWindow main;
+        private IPage currPage => App.Pages[(int)main.CurrentNumberPage];
 
         public TitleBar()
         {
+            main = (MainWindow)Application.Current.MainWindow;
             InitializeComponent();
-        }
-
-        public void EnableMenu(bool enable)
-        {
-            MenuColor = enable ? Brushes.White : new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
-            OnPropertyChanged(nameof(MenuColor));
         }
 
         protected internal void OnPropertyChanged(string propertyName)
@@ -53,13 +39,17 @@ namespace RetailCorrector.Parser.UserControls
         {
 
         }
-        public void ToPrepPage(object sender, RoutedEventArgs e)
+        public void ToPrepPage(object sender, RoutedEventArgs e) => ToPage(main.CurrentNumberPage - 1);
+        public void ToNextPage(object sender, RoutedEventArgs e) => ToPage(main.CurrentNumberPage + 1);
+
+        public void ToPage(Enums.Page numb)
         {
-            OnPropertyChanged(nameof(PrepPageColor));
-        }
-        public void ToNextPage(object sender, RoutedEventArgs e)
-        {
-            OnPropertyChanged(nameof(NextPageColor));
+            main.CurrentNumberPage = numb;
+            OnPropertyChanged(nameof(IsNotFirst));
+            OnPropertyChanged(nameof(IsNotLast));
+            OnPropertyChanged(nameof(IsMenuEnabled));
+            OnPropertyChanged(nameof(PageTitle));
+
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)

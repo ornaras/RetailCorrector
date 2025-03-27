@@ -4,11 +4,10 @@ using System.Windows;
 
 namespace RetailCorrector.Parser
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        internal readonly static IPage[] Pages = [
+            ];
     }
 
 }
