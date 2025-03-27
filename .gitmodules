@@ -1,0 +1,4 @@
+[submodule "Fiscal"]
+	path = Fiscal
+	url = https://github.com/ornaras/RetailCorrector.Fiscal
+	branch = template
