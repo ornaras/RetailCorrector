@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Base\Base.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Fonts\JetBrainsMono.ttf" />
+  </ItemGroup>
+
 </Project>
